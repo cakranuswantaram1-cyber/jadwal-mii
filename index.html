@@ -238,17 +238,32 @@
             <section id="pane-bobot" class="tab-pane hidden max-w-xl mx-auto">
     <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
         <h3 class="font-bold text-slate-800 border-b pb-2 text-sm uppercase tracking-wider">Pengaturan Nama & Bobot Nilai</h3>
-        <div class="space-y-3 text-sm">
-            <div class="flex justify-between items-center">
-                <input type="text" id="name-harian" class="w-32 p-1 border rounded font-medium" value="Nilai Harian">
-                <input type="number" id="w-harian" class="w-20 p-1 border rounded text-center" value="40">%
+        <p class="text-xs text-slate-500 italic">Pastikan total semua bobot adalah 100%.</p>
+        
+        <div class="space-y-3 text-sm" id="bobot-container">
+            <div class="flex justify-between items-center gap-2">
+                <input type="text" id="name-b1" class="w-32 p-1 border rounded" value="Nilai Harian">
+                <input type="number" id="w-b1" class="w-20 p-1 border rounded text-center" value="40">%
             </div>
-            <div class="flex justify-between items-center">
-                <input type="text" id="name-tugas" class="w-32 p-1 border rounded font-medium" value="Tugas">
-                <input type="number" id="w-tugas" class="w-20 p-1 border rounded text-center" value="20">%
+            <div class="flex justify-between items-center gap-2">
+                <input type="text" id="name-b2" class="w-32 p-1 border rounded" value="Tugas">
+                <input type="number" id="w-b2" class="w-20 p-1 border rounded text-center" value="20">%
             </div>
-            <button onclick="simpanBobot()" class="w-full bg-blue-600 text-white py-2 rounded-lg mt-2">Simpan Nama & Bobot</button>
+            <div class="flex justify-between items-center gap-2">
+                <input type="text" id="name-b3" class="w-32 p-1 border rounded" value="Projek">
+                <input type="number" id="w-b3" class="w-20 p-1 border rounded text-center" value="15">%
+            </div>
+            <div class="flex justify-between items-center gap-2">
+                <input type="text" id="name-b4" class="w-32 p-1 border rounded" value="PTS">
+                <input type="number" id="w-b4" class="w-20 p-1 border rounded text-center" value="10">%
+            </div>
+            <div class="flex justify-between items-center gap-2">
+                <input type="text" id="name-b5" class="w-32 p-1 border rounded" value="PAS">
+                <input type="number" id="w-b5" class="w-20 p-1 border rounded text-center" value="15">%
+            </div>
         </div>
+       
+        <button onclick="simpanBobot()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg mt-4 font-bold">Simpan Semua Bobot</button>
     </div>
 </section>
 
