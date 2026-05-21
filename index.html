@@ -3,85 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Raport MI - Terintegrasi Penuh</title>
+    <title>E-Raport MI - Terintegrasi</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @media print { .no-print { display: none !important; } }
+        /* Memastikan konten utama selalu muncul di sebelah sidebar */
+        .main-container { display: flex; flex-direction: row; min-height: 100vh; }
+        @media (max-width: 768px) { .main-container { flex-direction: column; } }
     </style>
 </head>
-<body class="bg-slate-100 flex min-h-screen">
-    <aside class="no-print bg-emerald-900 text-white w-64 p-4">
-        <h1 class="font-bold text-lg mb-6">E-Raport MI</h1>
-        
-        <div class="mb-6 p-2 bg-emerald-800 rounded">
-            <label class="text-xs font-bold text-emerald-300 uppercase">Pilih Kelas / Rombel</label>
-            <select id="sel-kelas" class="w-full mt-1 p-2 bg-emerald-900 text-white rounded text-sm border-0">
-                <option>1A</option><option>1B</option><option>2A</option><option>2B</option>
-                <option>3A</option><option>3B</option><option>4A</option><option>4B</option>
-                <option>5A</option><option>5B</option><option>6A</option><option>6B</option>
-            </select>
-        </div>
-
-        <nav class="space-y-2">
-            <button onclick="switchTab('dashboard')" class="w-full text-left p-2 hover:bg-emerald-800 rounded">Dashboard</button>
-            <button onclick="switchTab('siswa')" class="w-full text-left p-2 hover:bg-emerald-800 rounded">Data Siswa</button>
-            <button onclick="switchTab('nilai')" class="w-full text-left p-2 hover:bg-emerald-800 rounded">Input Nilai</button>
-            <button onclick="switchTab('bobot')" class="w-full text-left p-2 hover:bg-emerald-800 rounded">Aturan Bobot</button>
-            <button onclick="switchTab('cetak')" class="w-full text-left p-2 hover:bg-emerald-800 rounded">Cetak Raport</button>
-        </nav>
-    </aside>
-
-    <main class="flex-1 p-6 bg-white">
-        <section id="pane-dashboard" class="tab-pane">
-            <h2 class="text-2xl font-bold mb-4">Dashboard Utama</h2>
-            <div class="p-5 bg-emerald-50 rounded-xl border border-emerald-100">
-                <p class="font-bold text-emerald-700">Status Sistem: Aktif</p>
-                <p class="text-sm">Semua fitur (Kelas, Nilai, Bobot) sudah terintegrasi.</p>
+<body class="bg-slate-100">
+    <div class="main-container">
+        <aside class="no-print bg-emerald-900 text-white w-full md:w-64 p-4 flex-shrink-0">
+            <h1 class="font-bold text-lg mb-6">E-Raport MI</h1>
+            
+            <div class="mb-6 p-2 bg-emerald-800 rounded">
+                <label class="text-xs font-bold text-emerald-300 uppercase">Pilih Kelas</label>
+                <select id="sel-kelas" class="w-full mt-1 p-2 bg-emerald-950 text-white rounded text-sm border-0">
+                    <option>1A</option><option>1B</option><option>2A</option><option>2B</option>
+                    <option>3A</option><option>3B</option><option>4A</option><option>4B</option>
+                    <option>5A</option><option>5B</option><option>6A</option><option>6B</option>
+                </select>
             </div>
-        </section>
 
-        <section id="pane-bobot" class="tab-pane hidden">
-            <h2 class="text-xl font-bold mb-4">Atur Nama & Bobot Komponen</h2>
-            <div id="bobot-container" class="space-y-2 max-w-sm">
-                <div class="flex gap-2"><input type="text" class="name-b border p-1 rounded w-full" value="Harian"><input type="number" class="val-b border p-1 rounded w-16" value="40">%</div>
-                <div class="flex gap-2"><input type="text" class="name-b border p-1 rounded w-full" value="Tugas"><input type="number" class="val-b border p-1 rounded w-16" value="20">%</div>
-                <div class="flex gap-2"><input type="text" class="name-b border p-1 rounded w-full" value="Projek"><input type="number" class="val-b border p-1 rounded w-16" value="15">%</div>
-                <div class="flex gap-2"><input type="text" class="name-b border p-1 rounded w-full" value="PTS"><input type="number" class="val-b border p-1 rounded w-16" value="10">%</div>
-                <div class="flex gap-2"><input type="text" class="name-b border p-1 rounded w-full" value="PAS"><input type="number" class="val-b border p-1 rounded w-16" value="15">%</div>
-            </div>
-        </section>
+            <nav class="space-y-2">
+                <button onclick="switchTab('dashboard')" class="w-full text-left p-2 hover:bg-emerald-800 rounded">Dashboard</button>
+                <button onclick="switchTab('siswa')" class="w-full text-left p-2 hover:bg-emerald-800 rounded">Data Siswa</button>
+                <button onclick="switchTab('nilai')" class="w-full text-left p-2 hover:bg-emerald-800 rounded">Input Nilai</button>
+                <button onclick="switchTab('bobot')" class="w-full text-left p-2 hover:bg-emerald-800 rounded">Aturan Bobot</button>
+                <button onclick="switchTab('cetak')" class="w-full text-left p-2 hover:bg-emerald-800 rounded">Cetak Raport</button>
+            </nav>
+        </aside>
 
-        <section id="pane-nilai" class="tab-pane hidden">
-            <h2 class="text-xl font-bold mb-4">Input Nilai (Auto-Hitung)</h2>
-            <div class="grid grid-cols-5 gap-2 text-center mb-4">
-                <input type="number" class="inp-n border p-2 rounded" placeholder="Harian" oninput="hitung()">
-                <input type="number" class="inp-n border p-2 rounded" placeholder="Tugas" oninput="hitung()">
-                <input type="number" class="inp-n border p-2 rounded" placeholder="Projek" oninput="hitung()">
-                <input type="number" class="inp-n border p-2 rounded" placeholder="PTS" oninput="hitung()">
-                <input type="number" class="inp-n border p-2 rounded" placeholder="PAS" oninput="hitung()">
-            </div>
-            <div class="text-4xl font-black text-emerald-700" id="hasil-akhir">0</div>
-        </section>
-    </main>
+        <main class="flex-1 p-6 bg-white overflow-y-auto">
+            <section id="pane-dashboard" class="tab-pane">
+                <h2 class="text-2xl font-bold mb-4">Dashboard</h2>
+                <div class="p-5 bg-emerald-50 rounded-xl border border-emerald-100">
+                    <p class="font-bold text-emerald-700">Status Sistem: Aktif</p>
+                </div>
+            </section>
+            
+            <section id="pane-bobot" class="tab-pane hidden">
+                <h2 class="text-xl font-bold mb-4">Pengaturan Bobot</h2>
+                </section>
+        </main>
+    </div>
 
     <script>
         function switchTab(id) {
             document.querySelectorAll('.tab-pane').forEach(p => p.classList.add('hidden'));
             document.getElementById(`pane-${id}`).classList.remove('hidden');
-        }
-
-        function hitung() {
-            let total = 0, bobotTotal = 0;
-            const vals = document.querySelectorAll('.val-b');
-            const inputs = document.querySelectorAll('.inp-n');
-            for(let i=0; i<5; i++) {
-                let b = parseFloat(vals[i].value) || 0;
-                let n = parseFloat(inputs[i].value) || 0;
-                total += (n * b);
-                bobotTotal += b;
-            }
-            document.getElementById('hasil-akhir').innerText = bobotTotal > 0 ? (total / bobotTotal).toFixed(1) : 0;
         }
     </script>
 </body>
