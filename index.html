@@ -50,6 +50,7 @@
                 </div>
                 <div>
                     <h1 class="text-sm font-bold tracking-wide uppercase">E-Raport MI</h1>
+                <div id="jam-digital" class="text-xs text-emerald-300 font-mono">00:00:00</div>
                     <p class="text-xs text-emerald-400">Versi Input Massal v2</p>
                 </div>
             </div>
@@ -771,6 +772,23 @@
                 © E-Raport ini dikembangkan oleh Avan - Sistem Informasi Madrasah 2026
             </marquee>
         </div>
+    <script>
+    function updateJam() {
+        const jamElement = document.getElementById('jam-digital');
+        if (jamElement) {
+            const sekarang = new Date();
+            const jam = String(sekarang.getHours()).padStart(2, '0');
+            const menit = String(sekarang.getMinutes()).padStart(2, '0');
+            const detik = String(sekarang.getSeconds()).padStart(2, '0');
+            jamElement.textContent = `${jam}:${menit}:${detik}`;
+        }
+    }
+    // Update jam setiap 1 detik
+    setInterval(updateJam, 1000);
+    // Jalankan sekali saat pertama buka
+    updateJam();
+</script>
+
     </div> </body>
 </body>
 </html>
