@@ -2,64 +2,103 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Aplikasi Raport MII - Avan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Raport MI Kelas 5 - Terintegrasi</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background-color: #eef2f5; font-family: sans-serif; }
-        .container { max-width: 800px; margin: auto; background: white; min-height: 100vh; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        body { font-family: 'Inter', sans-serif; background-color: #eef2f5; }
+        .tab-pane { display: none; }
+        .tab-pane.active { display: block; }
+        .nav-btn.active { background-color: #065f46; }
     </style>
 </head>
-<body>
+<body class="flex justify-center">
+    <div class="bg-white shadow-2xl w-full max-w-[900px] min-h-screen">
+        
+        <nav class="bg-emerald-900 text-white p-4 flex gap-4 overflow-x-auto">
+            <button onclick="switchTab('dashboard')" class="nav-btn active px-4 py-2 rounded-lg text-sm font-bold">Dashboard</button>
+            <button onclick="switchTab('absen-baru')" class="nav-btn px-4 py-2 rounded-lg text-sm font-bold bg-emerald-700 hover:bg-emerald-800">Absensi Digital</button>
+            <button onclick="switchTab('nilai')" class="nav-btn px-4 py-2 rounded-lg text-sm font-bold hover:bg-emerald-800">Nilai Raport</button>
+        </nav>
 
-<div class="container">
-    <h1 class="text-2xl font-bold text-center mb-6">Aplikasi Raport & Absensi</h1>
-    
-    <div class="flex justify-center gap-2 mb-6">
-        <button onclick="buka('raport')" class="bg-blue-600 text-white px-4 py-2 rounded">Raport</button>
-        <button onclick="buka('absen')" class="bg-green-600 text-white px-4 py-2 rounded">Absensi</button>
+        <div class="p-6">
+            <section id="pane-dashboard" class="tab-pane active">
+                <h2 class="text-xl font-bold">Selamat Datang, Ibu Nurul</h2>
+                <p>Silakan pilih menu Absensi Digital atau Nilai Raport di atas.</p>
+            </section>
+
+            <section id="pane-absen-baru" class="tab-pane">
+                <h3 class="font-bold text-lg mb-4">Input Absensi Harian</h3>
+                <input type="date" id="input-tanggal" class="p-2 border rounded-lg mb-4 w-full">
+                <div id="absen-table-container" class="border rounded-lg overflow-hidden">
+                    </div>
+                <button onclick="simpanAbsensi()" class="mt-4 bg-emerald-700 text-white px-6 py-2 rounded-lg w-full font-bold">Simpan Absensi</button>
+            </section>
+
+            <section id="pane-nilai" class="tab-pane">
+                <h2 class="text-xl font-bold">Menu Nilai</h2>
+                <p>Fitur input nilai raport Ibu sudah ada di sini.</p>
+            </section>
+        </div>
+
+        <div style="padding: 20px; border-top: 1px solid #eee;">
+            <marquee scrollamount="5" style="color: #666; font-size: 14px; font-weight: bold;">
+                © E-Raport ini dikembangkan oleh Avan - Sistem Informasi Madrasah 2026
+            </marquee>
+        </div>
     </div>
 
-    <div id="raport" class="tab">
-        <h2 class="text-xl font-bold">Menu Input Raport</h2>
-        <p>Gunakan fitur input nilai seperti biasa di sini...</p>
-    </div>
+    <script>
+        // Logika Pindah Halaman
+        function switchTab(id) {
+            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('pane-' + id).classList.add('active');
+            event.target.classList.add('active');
+        }
 
-    <div id="absen" class="tab hidden">
-        <h2 class="text-xl font-bold mb-4">Input Absensi Harian</h2>
-        <input type="date" id="tgl" onchange="loadData()" class="border p-2 w-full mb-4">
-        <div id="daftar-siswa"></div>
-        <button onclick="simpanAbsen()" class="bg-green-600 text-white w-full py-2 mt-4 rounded">Simpan Data Absen</button>
-    </div>
+        // Logika Absensi
+        let ABSEN_DATA = JSON.parse(localStorage.getItem('ERAPORT_ABSEN_NP')) || {};
+        let MASTER_SISWA = JSON.parse(localStorage.getItem('ERAPORT_SISWA_NP')) || [];
 
-    <div class="mt-10 border-t pt-4">
-        <marquee class="text-gray-500 font-bold">© Dikembangkan oleh Avan - Sistem Informasi Madrasah 2026</marquee>
-    </div>
-</div>
+        function renderAbsen() {
+            const tgl = document.getElementById('input-tanggal').value || new Date().toISOString().split('T')[0];
+            const container = document.getElementById('absen-table-container');
+            container.innerHTML = `<table class="w-full text-sm"><tbody id="body-absen"></tbody></table>`;
+            const tbody = document.getElementById('body-absen');
+            
+            MASTER_SISWA.forEach(s => {
+                const status = ABSEN_DATA[tgl]?.[s.id] || "Hadir";
+                tbody.innerHTML += `
+                    <tr class="border-b">
+                        <td class="p-3">${s.nama}</td>
+                        <td class="p-3">
+                            <select onchange="updateAbsen('${s.id}', this.value)" class="p-1 border rounded">
+                                <option ${status=='Hadir'?'selected':''}>Hadir</option>
+                                <option ${status=='Sakit'?'selected':''}>Sakit</option>
+                                <option ${status=='Izin'?'selected':''}>Izin</option>
+                                <option ${status=='Alpha'?'selected':''}>Alpha</option>
+                            </select>
+                        </td>
+                    </tr>`;
+            });
+        }
 
-<script>
-    // FUNGSI PINDAH TAB
-    function buka(id) {
-        document.getElementById('raport').classList.add('hidden');
-        document.getElementById('absen').classList.add('hidden');
-        document.getElementById(id).classList.remove('hidden');
-    }
+        function updateAbsen(id, val) {
+            const tgl = document.getElementById('input-tanggal').value;
+            if(!ABSEN_DATA[tgl]) ABSEN_DATA[tgl] = {};
+            ABSEN_DATA[tgl][id] = val;
+        }
 
-    // FUNGSI ABSEN SEDERHANA
-    let siswa = JSON.parse(localStorage.getItem('ERAPORT_SISWA_NP')) || [];
-    function loadData() {
-        let h = "";
-        siswa.forEach(s => {
-            h += `<div class="flex justify-between p-2 border-b">${s.nama} 
-                  <select class="status"><option>Hadir</option><option>Sakit</option><option>Izin</option><option>Alpha</option></select></div>`;
-        });
-        document.getElementById('daftar-siswa').innerHTML = h;
-    }
-    
-    function simpanAbsen() { alert('Data Absen Tersimpan!'); }
-    
-    // Jalankan saat pertama buka
-    loadData();
-</script>
+        function simpanAbsensi() {
+            localStorage.setItem('ERAPORT_ABSEN_NP', JSON.stringify(ABSEN_DATA));
+            alert('Absensi berhasil disimpan!');
+        }
 
+        // Jalankan saat halaman dibuka
+        document.getElementById('input-tanggal').value = new Date().toISOString().split('T')[0];
+        renderAbsen();
+    </script>
 </body>
 </html>
