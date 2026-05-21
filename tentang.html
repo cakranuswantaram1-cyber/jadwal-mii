@@ -2,47 +2,22 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tentang Pengembang</title>
-    <style>
-        body { font-family: sans-serif; padding: 20px; text-align: center; background-color: #f4f4f9; }
-        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        
-        /* Kode untuk tulisan bergerak */
-        .marquee-container {
-            width: 100%;
-            overflow: hidden;
-            white-space: nowrap;
-            margin: 20px 0;
-        }
-        .marquee-text {
-            display: inline-block;
-            padding-left: 100%;
-            animation: move-left 10s linear infinite;
-            font-size: 24px;
-            font-weight: bold;
-            color: #007bff;
-        }
-        @keyframes move-left {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-100%, 0); }
-        }
-        
-        a { display: inline-block; margin-top: 20px; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; }
-    </style>
 </head>
-<body>
-    <div class="card">
+<body style="font-family: sans-serif; padding: 20px; text-align: center; background-color: #f4f4f9;">
+
+    <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
         <h1>Tentang Aplikasi</h1>
         <p>Aplikasi Jadwal MII ini dikembangkan oleh:</p>
         
-        <div class="marquee-container">
-            <div class="marquee-text">--- AVAN --- AVAN --- AVAN ---</div>
-        </div>
+        <marquee style="font-size: 24px; font-weight: bold; color: #007bff; margin: 20px 0;">
+            --- AVAN --- AVAN --- AVAN ---
+        </marquee>
 
         <p><em>"Solusi praktis untuk madrasah tercinta."</em></p>
         <br>
-        <a href="index.html">Kembali ke Jadwal</a>
+        <a href="index.html" style="padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 5px;">Kembali ke Jadwal</a>
     </div>
+
 </body>
 </html>
