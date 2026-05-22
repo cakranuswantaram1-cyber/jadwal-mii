@@ -13,25 +13,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Raport MI - Fitur Input Massal Excel (Fix)</title>
+    <title>E-Raport MI Kelas 5 - Fitur Input Massal Excel (Fix)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-    body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
-    /* Memastikan layout full screen di HP */
-    .app-container { display: flex; flex-direction: column; min-height: 100vh; }
-    @media (min-width: 768px) { .app-container { flex-direction: row; } }
-    .sidebar { width: 100%; min-width: 256px; }
-    @media (min-width: 768px) { .sidebar { width: 256px; } }
-    .content { flex: 1; width: 100%; }
-    
-    @media print {
-        .no-print { display: none !important; }
-        .print-area { display: block !important; width: 210mm; padding: 15mm; }
-    }
-</style>
-
+        body { font-family: 'Inter', sans-serif; }
+        *, *::before, *::after { box-sizing: border-box; }
+        @media print {
+            .no-print { display: none !important; }
+            .print-area { display: block !important; width: 210mm; min-height: 297mm; padding: 15mm; background: white; color: black; }
+            body { background: white; }
+        }
+    </style>
     <script>
         tailwind.config = {
             theme: {
@@ -44,24 +38,45 @@
         }
     </script>
 </head>
-<body class="bg-slate-200">
-    <div class="app-wrapper">
-        <aside class="no-print bg-emerald-200 text-white w-full md:w-64 flex-shrink-0">
-             </aside>
+<body class="bg-slate-200 flex justify-center">
+    <div class="bg-white shadow-2xl w-full max-w-[900px] min-h-screen">
 
-        <main class="flex-1 bg-white min-w-0">
-            <header class="no-print bg-white border-b h-16 flex items-center justify-between px-6 sticky top-0 shadow-sm">
-                <h2 id="page-window-title" class="text-lg font-bold">Dashboard Utama</h2>
-                <div id="jam-digital" class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-lg text-sm font-bold">00:00:00</div>
-            </header>
-            
-            <div class="p-6">
-                </div>
-        </main>
-    </div>
 
     <aside class="no-print bg-emerald-900 text-white w-full md:w-64 flex-shrink-0 flex flex-col justify-between shadow-xl z-30">
+        <div>
+            <div class="p-5 flex items-center space-x-3 border-b border-emerald-800 bg-emerald-950">
+                <div class="bg-white p-2 rounded-xl shadow-md flex items-center justify-center">
+                    <i class="fa-solid fa-mosque text-emerald-700 text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-sm font-bold tracking-wide uppercase">E-Raport MI</h1>
+                    <p class="text-xs text-emerald-400">Versi Input Massal v2</p>
+                </div>
+            </div>
 
+            <nav class="p-4 space-y-1 overflow-y-auto max-h-[75vh]">
+                <button onclick="switchTab('dashboard')" class="nav-btn w-full flex items-center space-x-3 px-4 py-2.5 rounded-lg text-sm font-medium bg-emerald-700 text-white transition">
+                    <i class="fa-solid fa-chart-pie w-5"></i> <span>Dashboard</span>
+                </button>
+                <button onclick="switchTab('profil')" class="nav-btn w-full flex items-center space-x-3 px-4 py-2.5 rounded-lg text-sm text-emerald-100 hover:bg-emerald-800 transition">
+                    <i class="fa-solid fa-school w-5"></i> <span>Profil Madrasah</span>
+                </button>
+                <button onclick="switchTab('siswa')" class="nav-btn w-full flex items-center space-x-3 px-4 py-2.5 rounded-lg text-sm text-emerald-100 hover:bg-emerald-800 transition">
+                    <i class="fa-solid fa-user-graduate w-5"></i> <span>Data Siswa</span>
+                </button>
+                <button onclick="switchTab('nilai')" class="nav-btn w-full flex items-center space-x-3 px-4 py-2.5 rounded-lg text-sm text-emerald-100 hover:bg-emerald-800 transition">
+                    <i class="fa-solid fa-pen-to-square w-5"></i> <span>Input Nilai Mapel</span>
+                </button>
+                <button onclick="switchTab('bobot')" class="nav-btn w-full flex items-center space-x-3 px-4 py-2.5 rounded-lg text-sm text-emerald-100 hover:bg-emerald-800 transition">
+                    <i class="fa-solid fa-sliders w-5"></i> <span>Aturan Bobot Nilai</span>
+                </button>
+                <button onclick="switchTab('tambahan')" class="nav-btn w-full flex items-center space-x-3 px-4 py-2.5 rounded-lg text-sm text-emerald-100 hover:bg-emerald-800 transition">
+                    <i class="fa-solid fa-star w-5"></i> <span>Absen & Ekstra</span>
+                </button>
+                <button onclick="switchTab('cetak')" class="nav-btn w-full flex items-center space-x-3 px-4 py-2.5 rounded-lg text-sm text-emerald-100 hover:bg-emerald-800 transition">
+                    <i class="fa-solid fa-print w-5"></i> <span>Cetak Raport A4</span>
+                </button>
+            </nav>
         </div>
         <div class="no-print p-4 border-t border-emerald-800 bg-emerald-950 text-xs flex items-center space-x-2">
             <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
@@ -71,14 +86,11 @@
 
     <main class="flex-1 flex flex-col min-w-0">
         <header class="no-print bg-white border-b border-slate-200 h-16 flex items-center justify-between px-6 sticky top-0 z-20 shadow-sm">
-    <h2 id="page-window-title" class="text-lg font-bold text-slate-800">Dashboard Utama</h2>
-    
-    <div id="jam-digital" class="text-sm font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-        00:00:00
-    </div>
+            <h2 id="page-window-title" class="text-lg font-bold text-slate-800">Dashboard Utama</h2>
+            <div id="school-tag" class="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">-</div>
         </header>
 
-        <iv class="p-4 md:p-6 flex-1 max-w-[1600px] w-full mx-auto">
+        <div class="p-4 md:p-6 flex-1 max-w-[1600px] w-full mx-auto">
             
             <section id="pane-dashboard" class="tab-pane block space-y-6">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -87,10 +99,13 @@
                         <div class="p-3 bg-emerald-50 text-emerald-700 rounded-lg"><i class="fa-solid fa-users text-xl"></i></div>
                     </div>
                     <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
-                    <div><p class="text-sm font-medium text-slate-500">Status Sistem</p><h3 class="text-md font-bold text-emerald-700 mt-1">Aktif</h3></div>
-                    <div class="p-3 bg-emerald-50 text-emerald-700 rounded-lg"><i class="fa-solid fa-check-circle text-xl"></i></div>
+                        <div><p class="text-sm font-medium text-slate-500">Mata Pelajaran (MI)</p><h3 class="text-2xl font-bold text-slate-900">11</h3></div>
+                        <div class="p-3 bg-blue-50 text-blue-700 rounded-lg"><i class="fa-solid fa-book text-xl"></i></div>
                     </div>
-              
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
+                        <div><p class="text-sm font-medium text-slate-500">Sistem Nilai</p><h3 class="text-md font-bold text-emerald-700 mt-1">Tanpa Praktik</h3></div>
+                        <div class="p-3 bg-amber-50 text-amber-700 rounded-lg"><i class="fa-solid fa-square-poll-vertical text-xl"></i></div>
+                    </div>
                     <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
                         <div><p class="text-sm font-medium text-slate-500">Metode Input</p><h3 class="text-md font-bold text-blue-700 mt-1">Copas Excel Super Fleksibel</h3></div>
                         <div class="p-3 bg-purple-50 text-purple-700 rounded-lg"><i class="fa-solid fa-copy text-xl"></i></div>
@@ -202,16 +217,17 @@
                         <div><label class="block font-medium mb-1">Tugas</label><input type="number" id="v-tugas" min="0" max="100" class="w-full p-2 border rounded" value="0"></div>
                         <div><label class="block font-medium mb-1">Projek (P5-PPRA)</label><input type="number" id="v-projek" min="0" max="100" class="w-full p-2 border rounded" value="0"></div>
                         <div><label class="block font-medium mb-1">PTS (Tengah Semester)</label><input type="number" id="v-pts" min="0" max="100" class="w-full p-2 border rounded" value="0"></div>
-                        <div><label class="block font-medium mb-1">PAS (Akhir Semester)</label><input type="number" id="v-pas" min="0" max="100" class="w-full p-2 border rounded" value="0"></div
-                        <input type="number" id="v-harian" oninput="hitungDanSimpanNilai()" class="w-full p-2 border rounded">
-                     </div>
-                     <div class="lg:col-span-2 space-y-4">
+                        <div><label class="block font-medium mb-1">PAS (Akhir Semester)</label><input type="number" id="v-pas" min="0" max="100" class="w-full p-2 border rounded" value="0"></div>
+                        <button onclick="hitungDanSimpanNilai()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-medium py-2.5 rounded-lg shadow mt-2 transition">Kunci & Kalkulasi Nilai</button>
+                    </div>
+
+                    <div class="lg:col-span-2 space-y-4">
                         <div class="grid grid-cols-2 gap-4 text-center">
                             <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm"><p class="text-xs font-semibold uppercase text-slate-500">Nilai Akhir (NA)</p><h2 class="text-4xl font-bold text-emerald-700 mt-1" id="res-na">0.0</h2></div>
                             <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm"><p class="text-xs font-semibold uppercase text-slate-500">Predikat</p><h2 class="text-4xl font-bold text-emerald-700 mt-1" id="res-predikat">-</h2></div>
                         </div>
                         <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                            <p class="text-xs font-semibold uppercase text-slate-400 mb-2"><i class="fa-solid fa-robot mr-1"></i> Deskripsi Capaian Otomatis </p>
+                            <p class="text-xs font-semibold uppercase text-slate-400 mb-2"><i class="fa-solid fa-robot mr-1"></i> Deskripsi Capaian Otomatis AI</p>
                             <div class="p-3 bg-emerald-50 text-emerald-900 border border-emerald-100 rounded-lg text-sm leading-relaxed italic font-medium" id="res-deskripsi">"Silahkan isi komponen nilai lalu klik Kunci Nilai."</div>
                         </div>
                     </div>
@@ -219,36 +235,18 @@
             </section>
 
             <section id="pane-bobot" class="tab-pane hidden max-w-xl mx-auto">
-    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
-        <h3 class="font-bold text-slate-800 border-b pb-2 text-sm uppercase tracking-wider">Pengaturan Nama & Bobot Nilai</h3>
-        <p class="text-xs text-slate-500 italic">Pastikan total semua bobot adalah 100%.</p>
-        
-        <div class="space-y-3 text-sm" id="bobot-container">
-            <div class="flex justify-between items-center gap-2">
-                <input type="text" id="name-b1" class="w-32 p-1 border rounded" value="Nilai Harian">
-                <input type="number" id="w-b1" class="w-20 p-1 border rounded text-center" value="40">%
-            </div>
-            <div class="flex justify-between items-center gap-2">
-                <input type="text" id="name-b2" class="w-32 p-1 border rounded" value="Tugas">
-                <input type="number" id="w-b2" class="w-20 p-1 border rounded text-center" value="20">%
-            </div>
-            <div class="flex justify-between items-center gap-2">
-                <input type="text" id="name-b3" class="w-32 p-1 border rounded" value="Projek">
-                <input type="number" id="w-b3" class="w-20 p-1 border rounded text-center" value="15">%
-            </div>
-            <div class="flex justify-between items-center gap-2">
-                <input type="text" id="name-b4" class="w-32 p-1 border rounded" value="PTS">
-                <input type="number" id="w-b4" class="w-20 p-1 border rounded text-center" value="10">%
-            </div>
-            <div class="flex justify-between items-center gap-2">
-                <input type="text" id="name-b5" class="w-32 p-1 border rounded" value="PAS">
-                <input type="number" id="w-b5" class="w-20 p-1 border rounded text-center" value="15">%
-            </div>
-        </div>
-       
-        <button onclick="simpanBobot()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg mt-4 font-bold">Simpan Semua Bobot</button>
-    </div>
-</section>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+                    <h3 class="font-bold text-slate-800 border-b pb-2 text-sm uppercase tracking-wider">Bobot Nilai Akhir (Total Harus 100%)</h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between items-center"><span>Bobot Nilai Harian (%)</span><input type="number" id="w-harian" class="w-24 p-2 border rounded text-center font-bold" value="40"></div>
+                        <div class="flex justify-between items-center"><span>Bobot Tugas (%)</span><input type="number" id="w-tugas" class="w-24 p-2 border rounded text-center font-bold" value="20"></div>
+                        <div class="flex justify-between items-center"><span>Bobot Projek (%)</span><input type="number" id="w-projek" class="w-24 p-2 border rounded text-center font-bold" value="15"></div>
+                        <div class="flex justify-between items-center"><span>Bobot Ujian PTS (%)</span><input type="number" id="w-pts" class="w-24 p-2 border rounded text-center font-bold" value="10"></div>
+                        <div class="flex justify-between items-center"><span>Bobot Ujian PAS (%)</span><input type="number" id="w-pas" class="w-24 p-2 border rounded text-center font-bold" value="15"></div>
+                        <button onclick="simpanBobot()" class="w-full bg-emerald-700 text-white py-2.5 rounded-lg shadow transition mt-2">Terapkan Struktur Bobot</button>
+                    </div>
+                </div>
+            </section>
 
             <section id="pane-tambahan" class="tab-pane hidden grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-4">
@@ -276,7 +274,7 @@
 
                 <div class="bg-white p-10 max-w-[210mm] min-h-[297mm] mx-auto rounded-md shadow-2xl border print-area text-black" id="print-sheet">
                     <div class="text-center space-y-1 border-b-4 border-double border-black pb-3 mb-6 flex flex-col items-center">
-                        <h2 class="text-lg font-bold uppercase tracking-wide" id="r-madrasah">MIS ISLAMIYAH PURWAWINANGUN CIREBON</h2>
+                        <h2 class="text-lg font-bold uppercase tracking-wide" id="r-madrasah">MIN 1 KOTA CIREBON</h2>
                         <p class="text-xs">Status Akreditasi Unggul | NSM: <span id="r-nsm">-</span> | NPSN: <span id="r-npsn">-</span></p>
                     </div>
                     <h3 class="text-center text-sm font-bold uppercase mb-4 tracking-wider">LAPORAN HASIL BELAJAR (RAPORT)</h3>
@@ -759,23 +757,6 @@
                 © E-Raport ini dikembangkan oleh Avan - Sistem Informasi Madrasah 2026
             </marquee>
         </div>
-    <script>
-    function updateJam() {
-        const jamElement = document.getElementById('jam-digital');
-        if (jamElement) {
-            const sekarang = new Date();
-            const jam = String(sekarang.getHours()).padStart(2, '0');
-            const menit = String(sekarang.getMinutes()).padStart(2, '0');
-            const detik = String(sekarang.getSeconds()).padStart(2, '0');
-            jamElement.textContent = `${jam}:${menit}:${detik}`;
-        }
-    }
-    // Update jam setiap 1 detik
-    setInterval(updateJam, 1000);
-    // Jalankan sekali saat pertama buka
-    updateJam();
-</script>
-
     </div> </body>
 </body>
 </html>
